@@ -24,14 +24,17 @@ Meteor.startup(() => {
   const user = Accounts.findUserByUsername(SEED_USERNAME);
 
   if (TasksCollection.find().count() === 0) {
-    [
-      "First Task",
-      "Second Task",
-      "Third Task",
-      "Fourth Task",
-      "Fifth Task",
-      "Sixth Task",
-      "Seventh Task",
-    ].forEach(taskText => insertTask(taskText, user));
+    [].forEach(taskText => insertTask(taskText, user));
   }
 });
+
+ServiceConfiguration.configurations.upsert(
+  { service: 'github' },
+  {
+    $set: {
+      loginStyle: 'popup',
+      clientId: '3c541d352096922c5cd9',
+      secret: 'e449922177d04354d3759db8d50a89cf5885d1d7'
+    }
+  }
+)

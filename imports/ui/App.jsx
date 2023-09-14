@@ -27,7 +27,6 @@ export const App = () => {
   const userFilter = user ? { userId: user._id } : {};
 
   const pendingOnlyFilter = { ...hideCompletedFilter, ...userFilter };
-  console.log(pendingOnlyFilter)
 
   const tasks = useTracker(() => {
     if (!user) {
@@ -53,8 +52,6 @@ export const App = () => {
 
   const pendingTasksTitle = `${pendingTasksCount ? ` (${pendingTasksCount})` : ''}`;
 
-  console.log(pendingTasksCount)
-
   const logout = () => Meteor.logout()
 
   return (
@@ -74,9 +71,9 @@ export const App = () => {
         {user ? (
           <Fragment>
             <div className="user" onClick={logout}>
-              {user.username} 🚪
+              {user.username || user.profile.name}  🚪
             </div>
-            
+
             <TaskForm user={user} />
 
             <div className="filter">
