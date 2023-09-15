@@ -24,6 +24,8 @@ button {
   box-shadow: 0 3px 3px rgba(34, 25, 25, 0.4);
   padding: 5px;
   cursor: pointer;
+  border-radius: 0.2rem;
+  padding: 0.6rem;
 }
 
 button:focus {
@@ -34,6 +36,8 @@ button:focus {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .app-header {
@@ -91,10 +95,16 @@ header {
   width: 100%;
   font-size: 1em;
   margin-right: 16px;
+  border-radius: 0.2rem;
+  padding: 0.6rem;
 }
 
 .task-form > input:focus {
   outline: 0;
+}
+
+.task-form > input.form-empty {
+  border: 2px solid red;
 }
 
 .task-form > button {
@@ -110,8 +120,13 @@ header {
 
 .filter > button {
   background-color: #62807e;
+  margin-bottom: 0.5rem;
 }
-
+.container-tasks {
+  overflow-y: auto;
+  background: #eceeee;
+  height: 100%;
+}
 .tasks {
   list-style-type: none;
   padding-inline-start: 0;
@@ -119,6 +134,7 @@ header {
   padding-right: 16px;
   margin-block-start: 0;
   margin-block-end: 0;
+  border-top: 3px solid rgb(198, 196, 196);
 }
 
 .tasks > li {
@@ -179,6 +195,8 @@ header {
   align-self: flex-end;
   margin: 8px 16px 0;
   font-weight: bold;
+  border: none;
+  background-color: rgb(121, 117, 117);
 }
 
 .github-btn {

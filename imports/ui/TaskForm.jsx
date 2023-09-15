@@ -1,19 +1,21 @@
+import { Meteor } from 'meteor/meteor';
 import React, { useState } from "react";
-import { TasksCollection } from '/imports/api/TasksCollection'
 
-export const TaskForm = ({user}) => {
+export const TaskForm = () => {
     const [text, setText] = useState("");
 
     const handleSubmit = e => {
         e.preventDefault()
 
-        if (!text) return
+        if (!text) {
+            const taskInput = e.target.insertTask
+            taskInput.classList.add('form-empty')
+            taskInput.focus()
+            return
+        }
 
-        TasksCollection.insert({
-            text: text.trim(),
-            createdAt: new Date(),
-            userId: user._id
-        })
+        e.target.insertTask.classList.remove('form-empty')
+        Meteor.call('tasks.insert', text)
 
         setText("")
     }
@@ -21,8 +23,10 @@ export const TaskForm = ({user}) => {
         <form className="task-form" onSubmit={handleSubmit}>
             <input
                 type="text"
+                name='insertTask'
                 placeholder="Digite uma nova tarefa"
                 value={text}
+
                 onChange={(e) => setText(e.target.value)}
             />
 
