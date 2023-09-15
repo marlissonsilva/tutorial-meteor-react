@@ -6,7 +6,7 @@ import { Task } from './Task';
 import { TaskForm } from './TaskForm';
 import { LoginForm } from './LoginForm';
 
-const toggleChecked = ({ _id, isChecked}) =>
+const toggleChecked = ({ _id, isChecked }) =>
   Meteor.call('tasks.setIsChecked', _id, !isChecked)
 
 
@@ -24,26 +24,26 @@ export const App = () => {
 
   const pendingOnlyFilter = { ...hideCompletedFilter, ...userFilter };
 
-  const tasks = useTracker(() => {
-    if (!user) {
-      return []
+  const { tasks, pendingTasksCount, isLoading } = useTracker(() => {
+    const noDataAvailable = { tasks: [], pendingTasksCount: 0 };
+    if (!Meteor.user()) {
+      return noDataAvailable;
+    }
+    const handler = Meteor.subscribe('tasks');
+
+    if (!handler.ready()) {
+      return { ...noDataAvailable, isLoading: true };
     }
 
-    return TasksCollection.find(
+    const tasks = TasksCollection.find(
       hideCompleted ? pendingOnlyFilter : userFilter,
       {
-        sort: {
-          createdAt: -1
-        },
-      }).fetch()
-  })
+        sort: { createdAt: -1 },
+      }
+    ).fetch();
+    const pendingTasksCount = TasksCollection.find(pendingOnlyFilter).count();
 
-  const pendingTasksCount = useTracker(() => {
-    if (!user) {
-      return 0;
-    }
-
-    return TasksCollection.find(hideCompletedFilter).count()
+    return { tasks, pendingTasksCount };
   });
 
   const pendingTasksTitle = `${pendingTasksCount ? ` (${pendingTasksCount})` : ''}`;
@@ -78,7 +78,10 @@ export const App = () => {
               </button>
             </div>
 
+            {isLoading && <div className="loading">loading...</div>}
+            
             <div className="container-tasks">
+
               <ul className="tasks">
                 {tasks.map(task => (
                   <Task
