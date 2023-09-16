@@ -142,16 +142,24 @@ header {
   padding: 16px;
   border-bottom: #eee solid 1px;
   align-items: center;
+  font-size: 1.2rem;
+  border-bottom: 2px solid rgba(160, 156, 156, 0.529);
 }
 
 .tasks > li > span {
   flex-grow: 1;
+  margin-left: 1rem;
 }
+
 
 .tasks > li > button {
   justify-self: flex-end;
   background-color: #ff3046;
+  font-size: 1rem;
+  padding: 0.3rem;
+  
 }
+
 
 .loading {
   display: flex;
